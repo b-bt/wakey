@@ -11,6 +11,22 @@ Wakey is main target is public transit users (with an Android phone). But anyone
 
 ## The App
 <!-- Descrever features, telas e fluxo -->
+- Creates alarms based on location
+- The last used alarms presets are saved and displayed on the initial screen, for easier creation of future alarms.
+
+
+- The initial screen is a overview of the map and the created alarms
+  - Search box to enter an address for wich to create a new alarm
+  - Shows the created alarms with its radius circle
+  
+- To create an alarm:
+  - Searches for an address using Google Map's API
+  - Can refine the address using the map's pin
+  - Can fine tune the radius
+  - Can give the alarm a name
+  
+  
+The initial screen setup can be found [here](https://drive.google.com/open?id=1b0wnnucXItotYLRs1FfaldNsWLoAPXp_).
 
 
 ## The Team
