@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Wakey.iml" filepath="$PROJECT_DIR$/Wakey.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wakey-Wakey.iml" filepath="$PROJECT_DIR$/wakey-Wakey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/wakey-app.iml" filepath="$PROJECT_DIR$/app/wakey-app.iml" />
     </modules>
   </component>
 </project>
