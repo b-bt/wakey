@@ -36,7 +36,7 @@ class RecentWakeyAdapter(private val context: Context,
         val wakey = getItem(position) as String
         titleTextView.text = wakey
         addressTextView.text = "Rua do Espinheiro, 690"
-        iconView.setBackgroundResource(R.drawable.ic_location)
+//        iconView.setBackgroundResource(R.drawable.ic_location)
 
         return rowView
     }

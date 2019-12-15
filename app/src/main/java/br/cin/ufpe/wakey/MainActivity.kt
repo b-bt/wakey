@@ -24,11 +24,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        // Config wakeys list onClick method
-        listview.setOnItemClickListener { _, _, position, _ ->
-            val detailIntent = WakeyDetailActivity.newIntent(this)
-            startActivity(detailIntent)
-        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

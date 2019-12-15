@@ -97,7 +97,7 @@
                 android:layout_height="48dp"
                 android:background="@color/colorPrimary"
                 android:padding="10dp"
-                android:text="@string/create_button"
+                android:text="@string/button_create"
                 android:textColor="@color/buttonText" />
         </LinearLayout>
 

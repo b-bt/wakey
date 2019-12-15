@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Wakey</string>
     <string name="title_activity_main">Wakey</string>
+    <string name="title_edit_activity">Edit Wakey</string>
+    <string name="title_create_activity">Create Wakey</string>
 
-    <string name="create_button">Create Wakey</string>
+    <string name="button_create_wakey">Create Wakey</string>
+    <string name="button_create">Create</string>
+    <string name="button_save">Save</string>
 </resources>
