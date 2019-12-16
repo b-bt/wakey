@@ -58,23 +58,13 @@
                 android:max="10"
                 android:progress="@integer/default_radius" />
 
-            <EditText
-                android:id="@+id/radiusEditText"
-                android:layout_width="30dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_vertical"
-                android:ems="10"
-                android:gravity="right"
-                android:inputType="number"
-                android:text="99"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="46dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="km" />
+                android:gravity="right"
+                android:text="200m" />
         </LinearLayout>
 
         <LinearLayout

@@ -7,4 +7,7 @@
     <color name="cardBackground">#EEE</color>
     <color name="buttonText">#FFFFFF</color>
     <color name="secondaryButton">#C4C5C6</color>
+
+    <color name="radiusCircleBorder">#424290</color>
+    <color name="radiusCircleFill">#61424290</color>
 </resources>

@@ -2,20 +2,23 @@ package br.cin.ufpe.wakey
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_wakey_detail.*
 
 class WakeyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var markerCenter: Marker
+    private lateinit var radiusCircle: Circle
 
     companion object {
         const val EXTRA_WAKEY: String = "wakey"
@@ -62,6 +65,24 @@ class WakeyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             .zoom(15f)
             .build()
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(newPosition))
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(newPosition))
+
+        // Add radius circle around marker
+        val circleOptions = CircleOptions()
+            .center(mMap.cameraPosition.target)
+            .radius(100.0)
+            .strokeColor(ContextCompat.getColor(this, R.color.radiusCircleBorder))
+            .fillColor(ContextCompat.getColor(this, R.color.radiusCircleFill))
+        radiusCircle = mMap.addCircle(circleOptions)
+
+        // Handle marker position
+        val markerOptions = MarkerOptions()
+        markerOptions.position(mMap.cameraPosition.target)
+        markerCenter = mMap.addMarker(markerOptions)
+        mMap.setOnCameraMoveListener {
+            val position = mMap.cameraPosition.target
+            markerCenter.position = position
+            radiusCircle.center = position
+        }
     }
 }
