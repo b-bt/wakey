@@ -25,6 +25,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var geofencingRequest: GeofencingRequest
     private var geofenceList: MutableList<Geofence> = mutableListOf<Geofence>()
