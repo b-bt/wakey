@@ -124,7 +124,7 @@ fun getGeofenceTransitionDetails(listOfGeofences: List<Geofence>): String{
 //    }
 //    message += "."
     val name = listOfGeofences.get(0).requestId
-    val message = """Wakey-wakey! You've entered "$name" region."""
+    val message = """You've entered "$name" region."""
     return message
 }
 
@@ -132,7 +132,7 @@ fun sendNotification(context: Context, message: String){
 
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.mipmap.ic_launcher)
-        .setContentTitle("Wakey")
+        .setContentTitle("Wakey-wakey!")
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setAutoCancel(true)
