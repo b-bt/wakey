@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:background="@color/secondaryButton"
-                android:text="Delete" />
+                android:text="@string/button_delete" />
 
             <Button
                 android:id="@+id/saveBtn"

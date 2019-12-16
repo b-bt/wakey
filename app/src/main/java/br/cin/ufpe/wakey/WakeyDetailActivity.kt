@@ -1,6 +1,9 @@
 package br.cin.ufpe.wakey
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +13,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -67,12 +71,28 @@ class WakeyDetailActivity : AppCompatActivity(),
         // Config SeekBar
         radiusSeekBar.progress = ((selectedRadius / 100.0) - 1).toInt()
         radiusSeekBar.setOnSeekBarChangeListener(this)
+
+        // Config buttons
+        saveBtn.setOnClickListener {
+            // TODO: "Save the Wakey"
+            Toast.makeText(this,  resources.getText(R.string.success_save), Toast.LENGTH_SHORT).show()
+            this.finish()
+        }
+        deleteBtn.setOnClickListener{
+            val confirmDialog = AlertDialog.Builder(this)
+            confirmDialog.setTitle(resources.getText(R.string.dialog_title_delete))
+            confirmDialog.setMessage(resources.getText(R.string.dialog_desc_delete))
+            confirmDialog.setNegativeButton(resources.getText(R.string.button_cancel), null)
+            confirmDialog.setPositiveButton(resources.getText(R.string.button_delete)) {dialog, which ->
+                Toast.makeText(this, "Deletado", Toast.LENGTH_SHORT).show()
+                this.finish()
+            }
+            confirmDialog.create().show()
+        }
     }
 
     fun updateSaveBtnState() {
         val enabled = !this.nameEditText.text.isBlank()
-        Log.v("WakeyDetailActivity", "enabled: ${enabled}")
-        Log.v("WakeyDetailActivity", "saveBtn enabled: ${saveBtn.isEnabled}")
 
         if (enabled == saveBtn.isEnabled) {
             return
