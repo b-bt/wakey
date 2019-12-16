@@ -4,11 +4,15 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
+import android.app.PendingIntent
+import android.content.Intent
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.Geofence.NEVER_EXPIRE
 import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,16 +26,38 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
+    private lateinit var geofencingRequest: GeofencingRequest
     private var geofenceList: MutableList<Geofence> = mutableListOf<Geofence>()
     private var wakeyList: MutableList<Wakey> = mutableListOf<Wakey>()
+    private val geofencePendingIntent: PendingIntent by lazy {
+        val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
+        // addGeofences() and removeGeofences().
+        PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         setupPermissions(this)
+        createNotificationChannel(this)
         wakeyList = restoreWakeys(this)
-        geofencingClient = LocationServices.getGeofencingClient(this)
+
+//        wakeyList.add(Wakey(-8.049917, -34.905129, 150.toFloat(), "Fulano's House"))
         geofenceList = wakeyListToGeofenceList(wakeyList)
-        getGeofencingRequest(geofenceList)
+        geofencingClient = LocationServices.getGeofencingClient(this)
+        geofencingRequest = getGeofencingRequest(geofenceList)
+
+        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
+            addOnSuccessListener {
+                Log.e("teste", "sucesso")
+            }
+            addOnFailureListener {
+                Log.e("teste", """$it""")
+            }
+        }
+
+
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -53,9 +79,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
 
         mMap = googleMap
+        mMap.isMyLocationEnabled = true
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        val sydney = LatLng(-8.049917, -34.905129)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Recife"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 

@@ -2,9 +2,18 @@ package br.cin.ufpe.wakey
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingRequest
 import kotlin.collections.MutableList
@@ -15,6 +24,7 @@ const val WAKEY_LAT = "wakey_lat_"
 const val WAKEY_LNG = "wakey_lng_"
 const val WAKEY_RADIUS = "wakey_radius_"
 const val WAKEY_NAME = "wakey_name_"
+const val CHANNEL_ID = "br.cin.ufpe.wakey-WAKEY"
 
 fun backupWakeys(activity: Activity, listOfWakeys: MutableList<Wakey>){
 
@@ -93,4 +103,59 @@ private fun requestPermissions(activity: Activity) {
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.VIBRATE),
         194
     )
+}
+
+private fun addNewGeofence(wakey: Wakey, geofenceList: MutableList<Geofence>): MutableList<Geofence> {
+    val geofence = wakey.buildGeofence()
+    geofenceList.add(geofence)
+    return geofenceList
+}
+
+fun getGeofenceTransitionDetails(listOfGeofences: List<Geofence>): String{
+//    var message = "Wakey-wakey! You've entered "
+//    var addendum = ""
+//    for (geofence in listOfGeofences){
+//        val name = geofence.requestId
+//        val messageAdd = """"$addendum$name" region"""
+//        message += messageAdd
+//        if (listOfGeofences.size > 1 && addendum == ""){
+//           addendum = ", and "
+//        }
+//    }
+//    message += "."
+    val name = listOfGeofences.get(0).requestId
+    val message = """Wakey-wakey! You've entered "$name" region."""
+    return message
+}
+
+fun sendNotification(context: Context, message: String){
+
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.mipmap.ic_launcher)
+        .setContentTitle("Wakey")
+        .setContentText(message)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setAutoCancel(true)
+
+    val notificationManager = NotificationManagerCompat.from(context)
+    notificationManager.notify(1994, builder.build())
+
+}
+
+fun createNotificationChannel(context: Context) {
+    // Create the NotificationChannel, but only on API 26+ because
+    // the NotificationChannel class is new and not in the support library
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = "WAKEY"
+        val descriptionText = "Wakey notifications"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(CHANNEL_ID, name, importance)
+        channel.description = descriptionText
+
+        // Register the channel with the system
+
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
 }
