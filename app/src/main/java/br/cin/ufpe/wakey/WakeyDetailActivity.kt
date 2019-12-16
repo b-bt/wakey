@@ -29,6 +29,7 @@ class WakeyDetailActivity : AppCompatActivity(),
     private lateinit var markerCenter: Marker
     private lateinit var radiusCircle: Circle
     private var selectedRadius: Double = 100.0
+    private var selectedWakey: Wakey? = null
 
     companion object {
         const val EXTRA_WAKEY_ID: String = "wakey_id"
@@ -47,14 +48,13 @@ class WakeyDetailActivity : AppCompatActivity(),
 
         // Configure view according to if editing or creating a wakey
         val wakeyId = intent.extras?.getString(EXTRA_WAKEY_ID)
-        Log.e("WakeyDetailActivity", "onCreate wakeyId: ${wakeyId}")
-        val wakey = WakeyManager.getInstance(this).getWakeyById(wakeyId)
+        selectedWakey = WakeyManager.getInstance(this).getWakeyById(wakeyId)
 
-        if (wakey != null) {
+        if (selectedWakey != null) {
             setTitle(R.string.title_edit_activity)
-            nameEditText.setText(wakey.name)
+            nameEditText.setText(selectedWakey!!.name)
             saveBtn.text = resources.getString(R.string.button_save)
-            selectedRadius = wakey.radius.toDouble()
+            selectedRadius = selectedWakey!!.radius.toDouble()
         } else {
             setTitle(R.string.title_create_activity)
             deleteBtn.visibility = View.GONE
@@ -76,7 +76,19 @@ class WakeyDetailActivity : AppCompatActivity(),
 
         // Config buttons
         saveBtn.setOnClickListener {
-            // TODO: "Save the Wakey"
+            val location = mMap.cameraPosition.target
+            val name = nameEditText.text.toString()
+
+            if (selectedWakey != null) {
+                // TODO: "Save the Wakey"
+            } else {
+                WakeyManager.getInstance(this).createWakie(
+                    location.latitude,
+                    location.longitude,
+                    selectedRadius,
+                    name
+                    )
+            }
             Toast.makeText(this,  resources.getText(R.string.success_save), Toast.LENGTH_SHORT).show()
             this.finish()
         }
@@ -118,7 +130,10 @@ class WakeyDetailActivity : AppCompatActivity(),
         mMap = googleMap
 
         // Move the camera to a certain location and zoom in
-        val location = LatLng(-8.0557, -34.9516)
+        var location = LatLng(-8.0557, -34.9516)
+        if (selectedWakey != null) {
+            location = LatLng(selectedWakey!!.latitude, selectedWakey!!.longitude)
+        }
         val newPosition = CameraPosition.Builder()
             .target(location)
             .zoom(15f)

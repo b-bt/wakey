@@ -51,7 +51,7 @@ class WakeyManager private constructor(val context: Context) {
 
     init {
         wakeyList = restoreWakeys(context)
-        wakeyList.add(Wakey(-8.049917, -34.905129, 100.toFloat(), "Home"))
+//        wakeyList.add(Wakey(-8.049917, -34.905129, 100.toFloat(), "Home"))
 
         geofenceList = wakeyListToGeofenceList(wakeyList)
         geofencingClient = LocationServices.getGeofencingClient(context)
@@ -60,26 +60,28 @@ class WakeyManager private constructor(val context: Context) {
 
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
                 addOnSuccessListener {
-                    Log.e("MainActivity", "Success!")
+                    Log.v("MainActivity", "Success!")
                 }
                 addOnFailureListener {
-                    Log.e("MainActivity", """$it""")
+                    Log.v("MainActivity", """$it""")
                 }
             }
         }
     }
 
     fun getWakeyById(id: String?): Wakey? {
-        Log.e("WakeyManager - getByID", "getWakeyById: ${id}")
-        Log.e("WakeyManager - getByID", "wakeyList: ${wakeyList}")
         if (id == null) { return null }
         val filteredList = wakeyList.filter { wakey ->
             wakey.id == id
         }
-        Log.e("WakeyManager - getByID", "filteredList: ${filteredList}")
         if (filteredList.isEmpty()) { return null }
-        Log.e("WakeyManager - getByID", "filtered wakey: ${filteredList.first()}")
         return filteredList.first()
+    }
+
+    fun createWakie(lat: Double, lon: Double, radius: Double, name: String) {
+        val wakey = Wakey(lat, lon, radius.toFloat(), name)
+        wakeyList.add(wakey)
+        backupWakeys(context, wakeyList)
     }
 
 }
