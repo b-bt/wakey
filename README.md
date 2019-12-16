@@ -27,7 +27,8 @@ Wakey is main target is public transit users (with an Android phone). But anyone
   
   
 The initial screen setup can be found [here](https://drive.google.com/open?id=1b0wnnucXItotYLRs1FfaldNsWLoAPXp_).
-
+A video of the App in use can be found [here]: https://drive.google.com/open?id=1Ygyt_NN2gqNvXA97Ek9Y2J3W_4GY0VQU
+The .apk file can be found [here]: https://github.com/tbbruno/wakey/blob/master/Wakey_Debug.apk
 
 ## The Team
 <!-- Como vai ser a divisão do trabalho? -->
