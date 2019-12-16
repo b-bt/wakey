@@ -5,6 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
@@ -15,7 +18,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_wakey_detail.*
 
-class WakeyDetailActivity : AppCompatActivity(), OnMapReadyCallback, SeekBar.OnSeekBarChangeListener {
+class WakeyDetailActivity : AppCompatActivity(),
+    OnMapReadyCallback, SeekBar.OnSeekBarChangeListener, TextWatcher {
 
     private lateinit var mMap: GoogleMap
     private lateinit var markerCenter: Marker
@@ -52,6 +56,8 @@ class WakeyDetailActivity : AppCompatActivity(), OnMapReadyCallback, SeekBar.OnS
             selectedRadius = (resources.getInteger(R.integer.default_radius) + 1) * 100.0
         }
         radiusTextView.text = "${selectedRadius.toInt()}m"
+        nameEditText.addTextChangedListener(this)
+        updateSaveBtnState()
 
         // Config map fragment
         val mapFragment = supportFragmentManager
@@ -63,6 +69,29 @@ class WakeyDetailActivity : AppCompatActivity(), OnMapReadyCallback, SeekBar.OnS
         radiusSeekBar.setOnSeekBarChangeListener(this)
     }
 
+    fun updateSaveBtnState() {
+        val enabled = !this.nameEditText.text.isBlank()
+        Log.v("WakeyDetailActivity", "enabled: ${enabled}")
+        Log.v("WakeyDetailActivity", "saveBtn enabled: ${saveBtn.isEnabled}")
+
+        if (enabled == saveBtn.isEnabled) {
+            return
+        }
+
+        if (enabled) {
+            saveBtn.isEnabled = true
+            saveBtn.isClickable = true
+            saveBtn.setTextColor(ContextCompat.getColor(this, R.color.buttonText))
+            saveBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        } else {
+            saveBtn.isEnabled = false
+            saveBtn.isClickable = false
+            saveBtn.setTextColor(Color.WHITE)
+            saveBtn.setBackgroundColor(Color.LTGRAY)
+        }
+    }
+
+    // MARK: Map Stuff
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -94,6 +123,7 @@ class WakeyDetailActivity : AppCompatActivity(), OnMapReadyCallback, SeekBar.OnS
         }
     }
 
+    // MARK: SeekBar Stuff
     override fun onStartTrackingTouch(p0: SeekBar?) {
         // Not implemented
     }
@@ -108,4 +138,17 @@ class WakeyDetailActivity : AppCompatActivity(), OnMapReadyCallback, SeekBar.OnS
         radiusCircle.radius = newRadius
         radiusTextView.text = "${newRadius.toInt()}m"
     }
+
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        // Not implemented
+    }
+
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        // Not implemented
+    }
+
+    override fun afterTextChanged(p0: Editable?) {
+        updateSaveBtnState()
+    }
+
 }
