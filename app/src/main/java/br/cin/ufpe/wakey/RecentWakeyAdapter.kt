@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 class RecentWakeyAdapter(private val context: Context,
-                         private val dataSource: Array<String>
+                         private val dataSource: MutableList<Wakey>
 ) : BaseAdapter() {
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -33,10 +33,9 @@ class RecentWakeyAdapter(private val context: Context,
         val iconView = rowView.findViewById<ImageView>(R.id.wakey_list_icon)
 
         // TODO: change that for the actual class object
-        val wakey = getItem(position) as String
-        titleTextView.text = wakey
-        addressTextView.text = "Rua do Espinheiro, 690"
-//        iconView.setBackgroundResource(R.drawable.ic_location)
+        val wakey = getItem(position) as Wakey
+        titleTextView.text = wakey.name
+        addressTextView.text = "${wakey.radius.toInt()} radius"
 
         return rowView
     }

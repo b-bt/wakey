@@ -22,16 +22,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private lateinit var geofencingClient: GeofencingClient
-    private lateinit var geofencingRequest: GeofencingRequest
-    private var geofenceList: MutableList<Geofence> = mutableListOf<Geofence>()
-    private var wakeyList: MutableList<Wakey> = mutableListOf<Wakey>()
-    private val geofencePendingIntent: PendingIntent by lazy {
-        val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
-        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
-        // addGeofences() and removeGeofences().
-        PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
+    private lateinit var wakeyList: MutableList<Wakey>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,24 +31,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setupPermissions(this)
         createNotificationChannel(this)
 
+        wakeyList = WakeyManager.getInstance(this).wakeyList
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        wakeyList = restoreWakeys(this)
-//        wakeyList.add(Wakey(-8.049917, -34.905129, 150.toFloat(), "Fulano's House"))
-        geofenceList = wakeyListToGeofenceList(wakeyList)
-        geofencingClient = LocationServices.getGeofencingClient(this)
-        if (!geofenceList.isEmpty()) {
-            geofencingRequest = getGeofencingRequest(geofenceList)
-
-            geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
-                addOnSuccessListener {
-                    Log.e("MainActivity", "Success!")
-                }
-                addOnFailureListener {
-                    Log.e("MainActivity", """$it""")
-                }
-            }
-        }
 
         // Config map fragment
         val mapFragment = supportFragmentManager

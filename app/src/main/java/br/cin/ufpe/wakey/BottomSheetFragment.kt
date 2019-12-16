@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
 class BottomSheetFragment : Fragment() {
 
     private lateinit var listView: ListView
-    val wakeyList = arrayOf("Home", "Work", "School")
+    var wakeyList = mutableListOf<Wakey>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +25,7 @@ class BottomSheetFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        wakeyList = restoreWakeys(activity!!)
         listView = activity!!.findViewById<ListView>(R.id.listview)
 
         val adapter = RecentWakeyAdapter(activity!!, wakeyList)
@@ -43,7 +44,7 @@ class BottomSheetFragment : Fragment() {
         }
     }
 
-    fun openDetailActivity(wakey: String? = null) {
+    fun openDetailActivity(wakey: Wakey? = null) {
         val detailIntent = WakeyDetailActivity.newIntent(activity!!, wakey)
         startActivity(detailIntent)
     }

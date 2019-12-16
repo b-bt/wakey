@@ -33,10 +33,10 @@ class WakeyDetailActivity : AppCompatActivity(),
     companion object {
         const val EXTRA_WAKEY: String = "wakey"
 
-        fun newIntent(context: Context, wakey: String? = null): Intent {
+        fun newIntent(context: Context, wakey: Wakey? = null): Intent {
             val detailIntent = Intent(context, WakeyDetailActivity::class.java)
 
-            detailIntent.putExtra(EXTRA_WAKEY, wakey)
+//            detailIntent.putExtra(EXTRA_WAKEY, wakey)
 
             return detailIntent
         }
