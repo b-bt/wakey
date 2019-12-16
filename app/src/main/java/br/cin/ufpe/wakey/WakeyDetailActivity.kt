@@ -104,6 +104,7 @@ class WakeyDetailActivity : AppCompatActivity(),
             confirmDialog.setMessage(resources.getText(R.string.dialog_desc_delete))
             confirmDialog.setNegativeButton(resources.getText(R.string.button_cancel), null)
             confirmDialog.setPositiveButton(resources.getText(R.string.button_delete)) {_, _ ->
+                WakeyManager.getInstance(this).deleteWakie(selectedWakey!!.id)
                 Toast.makeText(this, "Deletado", Toast.LENGTH_SHORT).show()
                 this.finish()
             }

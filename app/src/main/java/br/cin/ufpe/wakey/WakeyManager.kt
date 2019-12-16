@@ -95,4 +95,12 @@ class WakeyManager private constructor(val context: Context) {
         backupWakeys(context, wakeyList)
     }
 
+    fun deleteWakie(id: String) {
+        val wakey = getWakeyById(id)
+        if (wakey == null) { return }
+        wakeyList.remove(wakey)
+
+        backupWakeys(context, wakeyList)
+    }
+
 }
