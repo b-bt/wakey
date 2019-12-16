@@ -84,4 +84,15 @@ class WakeyManager private constructor(val context: Context) {
         backupWakeys(context, wakeyList)
     }
 
+    fun updateWakie(id: String, lat: Double, lon: Double, radius: Double, name: String) {
+        val wakey = getWakeyById(id)
+        if (wakey == null) { return }
+        wakey.latitude = lat
+        wakey.longitude = lon
+        wakey.radius = radius.toFloat()
+        wakey.name = name
+
+        backupWakeys(context, wakeyList)
+    }
+
 }

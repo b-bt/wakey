@@ -80,14 +80,20 @@ class WakeyDetailActivity : AppCompatActivity(),
             val name = nameEditText.text.toString()
 
             if (selectedWakey != null) {
-                // TODO: "Save the Wakey"
+                WakeyManager.getInstance(this).updateWakie(
+                    selectedWakey!!.id,
+                    location.latitude,
+                    location.longitude,
+                    selectedRadius,
+                    name
+                )
             } else {
                 WakeyManager.getInstance(this).createWakie(
                     location.latitude,
                     location.longitude,
                     selectedRadius,
                     name
-                    )
+                )
             }
             Toast.makeText(this,  resources.getText(R.string.success_save), Toast.LENGTH_SHORT).show()
             this.finish()

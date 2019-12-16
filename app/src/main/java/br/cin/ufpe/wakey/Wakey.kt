@@ -4,10 +4,10 @@ import com.google.android.gms.location.Geofence
 import java.util.*
 
 class Wakey(
-    val latitude: Double,
-    val longitude: Double,
-    val radius: Float,
-    val name: String,
+    var latitude: Double,
+    var longitude: Double,
+    var radius: Float,
+    var name: String,
     val id: String = UUID.randomUUID().toString())
 {
 
