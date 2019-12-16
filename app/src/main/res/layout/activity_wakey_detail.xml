@@ -55,11 +55,11 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:max="10"
+                android:max="8"
                 android:progress="@integer/default_radius" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/radiusTextView"
                 android:layout_width="46dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
