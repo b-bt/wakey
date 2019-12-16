@@ -37,7 +37,7 @@ class WakeyManager private constructor(val context: Context) {
     var wakeyList = mutableListOf<Wakey>()
         private set
 
-    private lateinit var geofencingClient: GeofencingClient
+    private var geofencingClient: GeofencingClient
     private lateinit var geofencingRequest: GeofencingRequest
     private var geofenceList: MutableList<Geofence> = mutableListOf<Geofence>()
     private val geofencePendingIntent: PendingIntent by lazy {
@@ -51,9 +51,8 @@ class WakeyManager private constructor(val context: Context) {
 
     init {
         wakeyList = restoreWakeys(context)
+        wakeyList.add(Wakey(-8.049917, -34.905129, 100.toFloat(), "Home"))
 
-        wakeyList = restoreWakeys(context)
-//        wakeyList.add(Wakey(-8.049917, -34.905129, 150.toFloat(), "Fulano's House"))
         geofenceList = wakeyListToGeofenceList(wakeyList)
         geofencingClient = LocationServices.getGeofencingClient(context)
         if (!geofenceList.isEmpty()) {
@@ -68,6 +67,19 @@ class WakeyManager private constructor(val context: Context) {
                 }
             }
         }
+    }
+
+    fun getWakeyById(id: String?): Wakey? {
+        Log.e("WakeyManager - getByID", "getWakeyById: ${id}")
+        Log.e("WakeyManager - getByID", "wakeyList: ${wakeyList}")
+        if (id == null) { return null }
+        val filteredList = wakeyList.filter { wakey ->
+            wakey.id == id
+        }
+        Log.e("WakeyManager - getByID", "filteredList: ${filteredList}")
+        if (filteredList.isEmpty()) { return null }
+        Log.e("WakeyManager - getByID", "filtered wakey: ${filteredList.first()}")
+        return filteredList.first()
     }
 
 }

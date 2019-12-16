@@ -30,12 +30,11 @@ class RecentWakeyAdapter(private val context: Context,
 
         val titleTextView = rowView.findViewById<TextView>(R.id.wakey_list_title)
         val addressTextView = rowView.findViewById<TextView>(R.id.wakey_list_address)
-        val iconView = rowView.findViewById<ImageView>(R.id.wakey_list_icon)
 
         // TODO: change that for the actual class object
         val wakey = getItem(position) as Wakey
         titleTextView.text = wakey.name
-        addressTextView.text = "${wakey.radius.toInt()} radius"
+        addressTextView.text = "${wakey.radius.toInt()}m radius"
 
         return rowView
     }

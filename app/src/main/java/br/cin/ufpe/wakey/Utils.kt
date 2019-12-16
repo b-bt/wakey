@@ -21,6 +21,7 @@ const val WAKEY_LAT = "wakey_lat_"
 const val WAKEY_LNG = "wakey_lng_"
 const val WAKEY_RADIUS = "wakey_radius_"
 const val WAKEY_NAME = "wakey_name_"
+const val WAKEY_ID = "wakey_id_"
 const val CHANNEL_ID = "br.cin.ufpe.wakey-WAKEY"
 
 fun backupWakeys(context: Context, listOfWakeys: MutableList<Wakey>){
@@ -36,6 +37,7 @@ fun backupWakeys(context: Context, listOfWakeys: MutableList<Wakey>){
             editor.putFloat("""$WAKEY_LNG$index""", wakey.longitude.toFloat())
             editor.putFloat("""$WAKEY_RADIUS$index""", wakey.radius)
             editor.putString("""$WAKEY_NAME$index""", wakey.name)
+            editor.putString("""$WAKEY_ID$index""", wakey.id)
         }
     }
     editor.apply()
@@ -52,11 +54,12 @@ fun restoreWakeys(context: Context): MutableList<Wakey> {
             val longitude = prefs.getFloat("""$WAKEY_LNG$index""", 0.toFloat()).toDouble()
             val radius = prefs.getFloat("""$WAKEY_RADIUS$index""", 0.toFloat())
             val name = prefs.getString("""$WAKEY_NAME$index""", null)
+            val id = prefs.getString("""$WAKEY_ID$index""", null)
 
-            if ((radius == 0.toFloat()) || (name == null)){
+            if ((radius == 0.toFloat()) || (name == null) || id === null){
                 continue
             } else {
-                val wakey = Wakey(latitude, longitude, radius, name)
+                val wakey = Wakey(latitude, longitude, radius, name, id)
                 listOfWakeys.add(wakey)
             }
         }

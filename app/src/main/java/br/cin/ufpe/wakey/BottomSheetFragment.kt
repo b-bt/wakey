@@ -45,7 +45,7 @@ class BottomSheetFragment : Fragment() {
     }
 
     fun openDetailActivity(wakey: Wakey? = null) {
-        val detailIntent = WakeyDetailActivity.newIntent(activity!!, wakey)
+        val detailIntent = WakeyDetailActivity.newIntent(activity!!, wakey?.id)
         startActivity(detailIntent)
     }
 

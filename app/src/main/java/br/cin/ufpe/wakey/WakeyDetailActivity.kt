@@ -31,12 +31,11 @@ class WakeyDetailActivity : AppCompatActivity(),
     private var selectedRadius: Double = 100.0
 
     companion object {
-        const val EXTRA_WAKEY: String = "wakey"
+        const val EXTRA_WAKEY_ID: String = "wakey_id"
 
-        fun newIntent(context: Context, wakey: Wakey? = null): Intent {
+        fun newIntent(context: Context, wakeyId: String? = null): Intent {
             val detailIntent = Intent(context, WakeyDetailActivity::class.java)
-
-//            detailIntent.putExtra(EXTRA_WAKEY, wakey)
+            detailIntent.putExtra(EXTRA_WAKEY_ID, wakeyId)
 
             return detailIntent
         }
@@ -47,12 +46,15 @@ class WakeyDetailActivity : AppCompatActivity(),
         setContentView(R.layout.activity_wakey_detail)
 
         // Configure view according to if editing or creating a wakey
-        val wakey = intent.extras?.getString(EXTRA_WAKEY)
+        val wakeyId = intent.extras?.getString(EXTRA_WAKEY_ID)
+        Log.e("WakeyDetailActivity", "onCreate wakeyId: ${wakeyId}")
+        val wakey = WakeyManager.getInstance(this).getWakeyById(wakeyId)
+
         if (wakey != null) {
             setTitle(R.string.title_edit_activity)
-            nameEditText.setText(wakey)
+            nameEditText.setText(wakey.name)
             saveBtn.text = resources.getString(R.string.button_save)
-            selectedRadius = 700.0
+            selectedRadius = wakey.radius.toDouble()
         } else {
             setTitle(R.string.title_create_activity)
             deleteBtn.visibility = View.GONE
@@ -83,7 +85,7 @@ class WakeyDetailActivity : AppCompatActivity(),
             confirmDialog.setTitle(resources.getText(R.string.dialog_title_delete))
             confirmDialog.setMessage(resources.getText(R.string.dialog_desc_delete))
             confirmDialog.setNegativeButton(resources.getText(R.string.button_cancel), null)
-            confirmDialog.setPositiveButton(resources.getText(R.string.button_delete)) {dialog, which ->
+            confirmDialog.setPositiveButton(resources.getText(R.string.button_delete)) {_, _ ->
                 Toast.makeText(this, "Deletado", Toast.LENGTH_SHORT).show()
                 this.finish()
             }
