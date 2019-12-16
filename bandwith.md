@@ -1,4 +1,4 @@
 ## Consumo de Rede
 O único consumo de rede em nossa aplicação é da classe padrão da API de Mapas no Android, logo nosso consumo de banda é baixissimo visto que já vem otimizado por padrão
 
-<!-- ![Image](android_profiler_capture.png) -->
+![Image](android_profiler_capture.png)
