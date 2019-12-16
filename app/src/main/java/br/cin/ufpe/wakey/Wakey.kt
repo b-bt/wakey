@@ -1,14 +1,21 @@
 package br.cin.ufpe.wakey
 
 import com.google.android.gms.location.Geofence
+import java.util.*
 
-class Wakey(val latitude: Double, val longitude: Double, val radius: Float, val name: String){
+class Wakey(
+    var latitude: Double,
+    var longitude: Double,
+    var radius: Float,
+    var name: String,
+    val id: String = UUID.randomUUID().toString())
+{
 
     fun buildGeofence(): Geofence {
         return Geofence.Builder()
-            // Set the request ID of the geofence. This is a string to identify this
-            // geofence.
-            .setRequestId(this.name)
+            // Set the request ID of the geofence.
+            // This is a string to identify this geofence.
+            .setRequestId(this.id)
 
             // Set the circular region of this geofence.
             .setCircularRegion(

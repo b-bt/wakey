@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#5B5BBA</color>
+    <color name="colorPrimaryDark">#424290</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="cardBackground">#EEE</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="secondaryButton">#C4C5C6</color>
+
+    <color name="radiusCircleBorder">#424290</color>
+    <color name="radiusCircleFill">#61424290</color>
 </resources>

@@ -4,16 +4,13 @@ import android.Manifest
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingRequest
 import kotlin.collections.MutableList
@@ -24,11 +21,12 @@ const val WAKEY_LAT = "wakey_lat_"
 const val WAKEY_LNG = "wakey_lng_"
 const val WAKEY_RADIUS = "wakey_radius_"
 const val WAKEY_NAME = "wakey_name_"
+const val WAKEY_ID = "wakey_id_"
 const val CHANNEL_ID = "br.cin.ufpe.wakey-WAKEY"
 
-fun backupWakeys(activity: Activity, listOfWakeys: MutableList<Wakey>){
+fun backupWakeys(context: Context, listOfWakeys: MutableList<Wakey>){
 
-    val prefs = activity.getSharedPreferences(PREFS_FILENAME, 0)
+    val prefs = context.getSharedPreferences(PREFS_FILENAME, 0)
     val editor = prefs.edit()
     val numberOfWakeys = listOfWakeys.size
     if (numberOfWakeys > 0){
@@ -39,13 +37,14 @@ fun backupWakeys(activity: Activity, listOfWakeys: MutableList<Wakey>){
             editor.putFloat("""$WAKEY_LNG$index""", wakey.longitude.toFloat())
             editor.putFloat("""$WAKEY_RADIUS$index""", wakey.radius)
             editor.putString("""$WAKEY_NAME$index""", wakey.name)
+            editor.putString("""$WAKEY_ID$index""", wakey.id)
         }
     }
     editor.apply()
 }
 
-fun restoreWakeys(activity: Activity): MutableList<Wakey> {
-    val prefs = activity.getSharedPreferences(PREFS_FILENAME, 0)
+fun restoreWakeys(context: Context): MutableList<Wakey> {
+    val prefs = context.getSharedPreferences(PREFS_FILENAME, 0)
     val numberOfWakeys = prefs.getInt(NUMBER_OF_WAKEYS, 0)
     val listOfWakeys: MutableList<Wakey> = mutableListOf<Wakey>()
 
@@ -55,11 +54,12 @@ fun restoreWakeys(activity: Activity): MutableList<Wakey> {
             val longitude = prefs.getFloat("""$WAKEY_LNG$index""", 0.toFloat()).toDouble()
             val radius = prefs.getFloat("""$WAKEY_RADIUS$index""", 0.toFloat())
             val name = prefs.getString("""$WAKEY_NAME$index""", null)
+            val id = prefs.getString("""$WAKEY_ID$index""", null)
 
-            if ((radius == 0.toFloat()) || (name == null)){
+            if ((radius == 0.toFloat()) || (name == null) || id === null){
                 continue
             } else {
-                val wakey = Wakey(latitude, longitude, radius, name)
+                val wakey = Wakey(latitude, longitude, radius, name, id)
                 listOfWakeys.add(wakey)
             }
         }
