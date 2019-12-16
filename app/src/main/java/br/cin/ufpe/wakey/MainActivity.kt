@@ -6,12 +6,14 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
@@ -55,13 +57,31 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     .target(location)
                     .zoom(16f)
                     .build()
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(newPosition))
+                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(newPosition))
             }
         }
+
+        addWakeysToMap()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onStop() {
         super.onStop()
         backupWakeys(this, wakeyList)
+    }
+
+    private fun addWakeysToMap() {
+        for (wakey in wakeyList) {
+            Log.e("MainActivity - radius", "wakey radius: ${wakey.radius}")
+            val circleOptions = CircleOptions()
+                .center(LatLng(wakey.latitude, wakey.longitude))
+                .radius(wakey.radius.toDouble())
+                .strokeColor(ContextCompat.getColor(this, R.color.radiusCircleBorder))
+                .fillColor(ContextCompat.getColor(this, R.color.radiusCircleFill))
+            mMap.addCircle(circleOptions)
+        }
     }
 }
