@@ -1,16 +1,13 @@
 package br.cin.ufpe.wakey
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
@@ -80,7 +77,7 @@ class WakeyDetailActivity : AppCompatActivity(),
             val name = nameEditText.text.toString()
 
             if (selectedWakey != null) {
-                WakeyManager.getInstance(this).updateWakie(
+                WakeyManager.getInstance(this).updateWakey(
                     selectedWakey!!.id,
                     location.latitude,
                     location.longitude,
@@ -104,7 +101,7 @@ class WakeyDetailActivity : AppCompatActivity(),
             confirmDialog.setMessage(resources.getText(R.string.dialog_desc_delete))
             confirmDialog.setNegativeButton(resources.getText(R.string.button_cancel), null)
             confirmDialog.setPositiveButton(resources.getText(R.string.button_delete)) {_, _ ->
-                WakeyManager.getInstance(this).deleteWakie(selectedWakey!!.id)
+                WakeyManager.getInstance(this).deleteWakey(selectedWakey!!.id)
                 Toast.makeText(this, "Deletado", Toast.LENGTH_SHORT).show()
                 this.finish()
             }
@@ -177,7 +174,7 @@ class WakeyDetailActivity : AppCompatActivity(),
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        var newRadius = (progress + 1) * 100.0
+        val newRadius = (progress + 1) * 100.0
         selectedRadius = newRadius
         radiusCircle.radius = newRadius
         radiusTextView.text = "${newRadius.toInt()}m"

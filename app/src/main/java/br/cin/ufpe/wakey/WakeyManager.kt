@@ -81,10 +81,24 @@ class WakeyManager private constructor(val context: Context) {
     fun createWakie(lat: Double, lon: Double, radius: Double, name: String) {
         val wakey = Wakey(lat, lon, radius.toFloat(), name)
         wakeyList.add(wakey)
+
+        val geofence = wakey.buildGeofence()
+        geofenceList.add(geofence)
+
+        geofencingRequest = getGeofencingRequest(geofenceList)
+        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
+            addOnSuccessListener {
+                Log.v("MainActivity", "Success!")
+            }
+            addOnFailureListener {
+                Log.v("MainActivity", """$it""")
+            }
+        }
+
         backupWakeys(context, wakeyList)
     }
 
-    fun updateWakie(id: String, lat: Double, lon: Double, radius: Double, name: String) {
+    fun updateWakey(id: String, lat: Double, lon: Double, radius: Double, name: String) {
         val wakey = getWakeyById(id)
         if (wakey == null) { return }
         wakey.latitude = lat
@@ -92,13 +106,33 @@ class WakeyManager private constructor(val context: Context) {
         wakey.radius = radius.toFloat()
         wakey.name = name
 
+        val geofence = wakey.buildGeofence()
+
+        geofenceList.remove(geofence)
+        geofenceList.add(geofence)
+
+        geofencingRequest = getGeofencingRequest(geofenceList)
+        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
+            addOnSuccessListener {
+                Log.v("MainActivity", "Success!")
+            }
+            addOnFailureListener {
+                Log.v("MainActivity", """$it""")
+            }
+        }
+
         backupWakeys(context, wakeyList)
     }
 
-    fun deleteWakie(id: String) {
+    fun deleteWakey(id: String) {
         val wakey = getWakeyById(id)
         if (wakey == null) { return }
         wakeyList.remove(wakey)
+        val removedWakeysIDList = mutableListOf<String>()
+        removedWakeysIDList.add(id)
+
+        geofenceList.remove(wakey.buildGeofence())
+        geofencingClient.removeGeofences(removedWakeysIDList)
 
         backupWakeys(context, wakeyList)
     }
