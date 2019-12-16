@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">Wakey</string>
     <string name="title_activity_maps">Wakey</string>
+    <string name="title_activity_main">Wakey</string>
+    <string name="title_edit_activity">Edit Wakey</string>
+    <string name="title_create_activity">Create Wakey</string>
+
+    <string name="button_create_wakey">Create Wakey</string>
+    <string name="button_create">Create</string>
+    <string name="button_save">Save</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_cancel">Cancel</string>
+
+    <string name="success_save">Wakey saved!</string>
+    <string name="success_delete">Wakey deleted!</string>
+
+    <string name="dialog_title_delete">Delete Wakey</string>
+    <string name="dialog_desc_delete">Are you sure you want to delete the Wakey?</string>
 </resources>
