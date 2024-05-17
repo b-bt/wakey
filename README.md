@@ -34,11 +34,11 @@ The .apk file can be found [here](https://github.com/tbbruno/wakey/blob/master/W
 
 ## The Team
 <!-- Como vai ser a divisão do trabalho? -->
-The team is composed by the undergrad students [@tbbruno](http://github.com/tbbruno) and [@jmsmf](http://github.com/jmsmf) and the activities are divided as follows:
+The team is composed by the undergrad students [@tbbruno](http://github.com/b-bt) and [@zpsmota](http://github.com/zpsmota) and the activities are divided as follows:
 
 | Activity | Resposible(s) |
 | --- | --- |
-| Conception and prototyping | @tbbruno & @jmsmf|
-| Bussiness Rules | @tbbruno & @jmsmf |
-|  Screens design and implementation | @tbbruno |
-| Location services | @jmsmf |
+| Conception and prototyping | @b-bt & @zpsmota|
+| Bussiness Rules | @b-bt & @zpsmota |
+|  Screens design and implementation | @b-bt |
+| Location services | @zpsmota |
